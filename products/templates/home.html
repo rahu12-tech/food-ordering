@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg h-100">
+                <img src="{{ product.product_images.url }}" class="card-img-top" alt="{{ product.product_name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.product_name }}</h5>
+                    <p class="card-text">Price: ₹{{ product.product_price }} | Demo Price: ₹{{ product.product_demo_price }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'add_cart' product.uid %}" class="btn btn-success-custom">Add to Cart <i class="fa-solid fa-cart-shopping"></i></a>
+                        <a href="#" class="btn btn-primary-custom">20% Discount</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

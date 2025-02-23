@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Food Ordering App{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f0f2f5; /* Light grey background */
+        }
+        .navbar {
+            background-color: #343a40; /* Dark theme for navbar */
+        }
+        .navbar-brand, .nav-link, .dropdown-item {
+            color: #ffffff !important;
+        }
+        .navbar-brand:hover, .nav-link:hover, .dropdown-item:hover {
+            color: #f8f9fa !important; /* Slightly lighter on hover */
+        }
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+        .btn-custom {
+            background-color: #17a2b8;
+            color: #ffffff;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #138496;
+            transform: scale(1.05);
+        }
+        .btn-success-custom {
+            background-color: #28a745;
+            color: #ffffff;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-success-custom:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        .btn-primary-custom {
+            background-color: #007bff;
+            color: #ffffff;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-primary-custom:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="{% url 'home' %}">Food Ordering</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars" style="color: white;"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'orders' %}">Order</a>
+                    </li>
+                    <li class="nav-item">
+                        
+                        <a class="nav-link" href="{% url 'orders' %}">Dashboard</a>
+                    </li>           
+                    <li class="nav-item">
+
+                        <a href="/logout/" class="btn btn-outline-success" type="submit">Logout</a>
+                    </li>           
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    {% endif %}
+                   
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cart' %}"><i class="fas fa-shopping-cart"></i> {{ request.user.get_cart_count }}</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        {% block content %}
+        <!-- Child templates will inject their content here -->
+        {% endblock %}
+    </main>
+
+    <footer class="footer mt-auto py-3">
+        <div class="container">
+            <span class="text-muted">&copy; 2025 My Food Ordering App. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

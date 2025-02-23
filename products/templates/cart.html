@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<div class="container card shadow-lg mt-5">
+    <h2 class="mb-4">Your Cart</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">Action</th>
+                <th scope="col">Product</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart.cart_items.all %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <th>
+                    <a href="{% url 'remove_cart_item' item.uid %}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                </th>
+                <td>
+                    <img src="/media/{{ item.product.product_images }}" style="height: 105px;width: 105px;">
+                </td>
+                <td>{{ item.product.product_name }}</td>
+                <td>{{ item.product.product_price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.product_price }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td> 
+                    <b>Grand Total</b>
+                    <br>
+                    <button id="pay-button" class="btn btn-primary">Pay Now {{ cart.get_cart_total }}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Include Razorpay Checkout Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.getElementById('pay-button').onclick = function(e) {
+        var options = {
+            "key": "{{ razorpay_key }}",  // Razorpay API Key
+            "amount": {{ cart.get_cart_total|floatformat:0 }} * 100,  // Amount in paise
+            "currency": "INR",
+            "name": "{{ request.user.username }}",
+            "description": "Order",
+            "image": "/static/images/logo.png",  // You can replace this with your logo
+            "order_id": "{{ order_id }}",
+            "callback_url": "{{ redirect_url }}",
+            "prefill": {
+                "name": "{{ request.user.username }}",
+                "email": "{{ request.user.email }}",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Hello World"
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+        e.preventDefault();
+    };
+</script>
+
+{% endblock %}

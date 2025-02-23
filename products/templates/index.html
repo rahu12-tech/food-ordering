@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to My Food Ordering App</h1>
+        <p class="lead">Order your favorite food items online!</p>
+        <hr class="my-4">
+        <p>Explore our variety of products including pizzas, burgers, and more.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'orders' %}" role="button">Start Ordering</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Pizza</h2>
+            <p>Delicious pizzas with a variety of toppings to choose from.</p>
+            <a class="btn btn-secondary" href="#">View details »</a>
+        </div>
+        <div class="col-md-4">
+            <h2>Burgers</h2>
+            <p>Juicy burgers made with fresh ingredients.</p>
+            <a class="btn btn-secondary" href="#">View details »</a>
+        </div>
+        <div class="col-md-4">
+            <h2>More Products</h2>
+            <p>Explore our wide range of products including drinks, sides, and desserts.</p>
+            <a class="btn btn-secondary" href="#">View details »</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
